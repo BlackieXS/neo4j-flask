@@ -1,4 +1,4 @@
-from models import User, get_todays_recent_posts
+from .models import User, get_todays_recent_posts
 from flask import Flask, request, session, redirect, url_for, render_template, flash
 
 app = Flask(__name__)
@@ -54,13 +54,12 @@ def add_post():
     tags = request.form['tags']
     text = request.form['text']
 
-    if not title or not tags or not text:
-        if not title:
-            flash('You must give your post a title.')
-        if not tags:
-            flash('You must give your post at least one tag.')
-        if not text:
-            flash('You must give your post a text body.')
+    if not title:
+        flash('You must give your post a title.')
+    elif not tags:
+        flash('You must give your post at least one tag.')
+    elif not text:
+        flash('You must give your post a text body.')
     else:
         User(session['username']).add_post(title, tags, text)
 
